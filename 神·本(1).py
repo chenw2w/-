@@ -123,172 +123,170 @@ def ls(x):
     print('\033[1;34m',x,'\033[0m')
 #战损函数
 def zhansun1(x):
-                                            global sun
-                                            if x in L4 and sun>=25:
-                                                 junma = L4.count(x)
-                                                 if x=='骏马':
-                                                     y=100
-                                                 elif x=='骐骥':
-                                                     y=75
-                                                 elif x=='良马':
-                                                     y=50
-                                                 elif x=='驽马':
-                                                     y=25
-                                                 else:
-                                                     y=1
-                                                 if junma*y>sun:
-                                                     junmasun=math.floor(sun/y)
-                                                     sun=0
-                                                     print('你损失了',junmasun,'匹',x)
-                                                     for i in range(0,junmasun):
-                                                         del L4[L4.index(x)]
-                                                 else:
-                                                     for i in range(0,junma):
-                                                           del L4[L4.index(x)]
-                                                     print('你损失了',junma,'匹',x)
-                                                     sun=sun-junma*y
+    global sun
+    if x in L4 and sun>=25:
+        junma = L4.count(x)
+        if x == '良马':
+            y=50
+        elif x == '驽马':
+            y=25
+        elif x == '骏马':
+            y=100
+        elif x == '骐骥':
+            y=75
+        else:
+            y=1
+        if junma*y>sun:
+            junmasun=math.floor(sun/y)
+            sun=0
+            print('你损失了',junmasun,'匹',x)
+            for _ in range(junmasun):
+                del L4[L4.index(x)]
+        else:
+            for _ in range(junma):
+                del L4[L4.index(x)]
+            print('你损失了',junma,'匹',x)
+            sun=sun-junma*y
 #战损
 def zhansun():
-                                         global sun
-                                         sun=xueq-xue
-                                         if '壮士' in L3:
-                                               zhuangshi = L3.count('壮士')
-                                               zhansun1('骏马')
-                                               zhansun1('骐骥')
-                                               zhansun1('良马')
-                                               zhansun1('驽马')
-                                               if sun>=100:
-                                                   if zhuangshi*100>=sun:
-                                                       zhuangshisun=math.floor(sun/100)
-                                                       print('本次战斗共有',zhuangshisun,'名壮士晋升为将军，并全部战死')
-                                                       for i in range(0,zhuangshisun):
-                                                         del L3[L3.index('壮士')]
-                                                   else:
-                                                       for i in range(0,zhuangshi):
-                                                            del L3[L3.index('壮士')]
-                                                       print('本次战斗，战况惨烈，壮士全部战死，无一幸免')
-                                               sun=0
+    global sun
+    sun=xueq-xue
+    if '壮士' in L3:
+        zhuangshi = L3.count('壮士')
+        zhansun1('骏马')
+        zhansun1('骐骥')
+        zhansun1('良马')
+        zhansun1('驽马')
+        if sun>=100:
+            if zhuangshi*100>=sun:
+                zhuangshisun=math.floor(sun/100)
+                print('本次战斗共有',zhuangshisun,'名壮士晋升为将军，并全部战死')
+                for _ in range(zhuangshisun):
+                    del L3[L3.index('壮士')]
+            else:
+                for _ in range(zhuangshi):
+                    del L3[L3.index('壮士')]
+                print('本次战斗，战况惨烈，壮士全部战死，无一幸免')
+        sun=0
 #团队血量
 def xue1():
-                                            global xue
-                                            global xiaxian
-                                            global xueq
-                                            xiaxian=0
-                                            if '壮士' in L3:
-                                               zhuangshi = L3.count('壮士')
-                                               if '骏马' in L4:
-                                                 junma = L4.count('骏马')
-                                                 if junma > zhuangshi:
-                                                     xue = xue+zhuangshi*200
-                                                     junma = junma-zhuangshi
-                                                     xiaxian = xiaxian+zhuangshi*20
-                                                     qs('注意！')
-                                                     print('你的', zhuangshi, '名壮士骑上了骏马，团队生命+', zhuangshi*200)
-                                                     zhuangshi = 0
-                                                 else:
-                                                     xue = xue+junma*200
-                                                     zhuangshi = zhuangshi-junma
-                                                     xiaxian = xiaxian+junma*20
-                                                     qs('注意！')
-                                                     print('你的', junma, '名壮士骑上了骏马，团队生命+', junma*200)
-                                                     junma = 0
-                                                     print(L4)
-                                               if '骐骥' in L4 and zhuangshi>0:
-                                                 qiji = L4.count('骐骥')
-                                                 if qiji > zhuangshi:
-                                                     xue = xue+zhuangshi*150
-                                                     qiji = qiji-zhuangshi
-                                                     xiaxian = xiaxian+zhuangshi*15
-                                                     qs('注意！')
-                                                     print('你的', zhuangshi, '名壮士骑上了骐骥，团队生命+',zhuangshi*150)
-                                                     zhuangshi = 0
-                                                 else:
-                                                     xue = xue+qiji*150
-                                                     zhuangshi = zhuangshi-qiji
-                                                     xiaxian = xiaxian+qiji*15
-                                                     qs('注意！')
-                                                     print('你的', qiji, '名壮士骑上了骐骥，团队生命+',qiji*150)
-                                                     qiji = 0
-                                               if '良马' in L4 and zhuangshi > 0:
-                                                 liangma = L4.count('良马')
-                                                 if liangma > zhuangshi:
-                                                     xue = xue+zhuangshi*100
-                                                     liangma = liangma-zhuangshi
-                                                     xiaxian = xiaxian+zhuangshi*10
-                                                     qs('注意！')
-                                                     print('你的', zhuangshi, '名壮士骑上了良马，团队生命+',zhuangshi*100)
-                                                     zhuangshi = 0
-                                                 else:
-                                                     xue = xue+liangma*100
-                                                     zhuangshi = zhuangshi-liangma
-                                                     xiaxian = xiaxian+liangma*10
-                                                     qs('注意！')
-                                                     print('你的', liangma, '名壮士骑上了良马，团队生命+',liangma*100)
-                                                     liangma = 0
-                                               if '驽马' in L4 and zhuangshi > 0:
-                                                 numa1 = L4.count('驽马')
-                                                 if numa1 > zhuangshi:
-                                                     xue = xue+zhuangshi*50
-                                                     numa1 = numa1-zhuangshi
-                                                     xiaxian = xiaxian+zhuangshi*5
-                                                     qs('注意！')
-                                                     print('你的', zhuangshi, '名壮士骑上了驽马，团队生命+',zhuangshi*50)
-                                                     zhuangshi = 0
-                                                 else:
-                                                     xue = xue+numa1*50
-                                                     zhuangshi = zhuangshi-numa1
-                                                     xiaxian = xiaxian+numa*5
-                                                     qs('注意！')
-                                                     print('你的', zhuangshi, '名壮士骑上了驽马，团队生命+',zhuangshi*50)
-                                                     numa1 = 0
-                                               if zhuangshi>0:
-                                                   print('你还剩下',zhuangshi,'名壮士没有马，团队生命+',zhuangshi*25)
-                                                   xue = xue+zhuangshi*25
-                                                   xiaxian = xiaxian+zhuangshi*3
-                                            print('总攻击增加了','攻击+',xiaxian)
-                                            xue = xue+Lifevalue1
-                                            xueq=xue
-                                            print('共计血量：', xue)
-                                            return xue,xiaxian
+    global xue
+    global xiaxian
+    global xueq
+    xiaxian=0
+    if '壮士' in L3:
+        zhuangshi = L3.count('壮士')
+        if '骏马' in L4:
+            junma = L4.count('骏马')
+            if junma > zhuangshi:
+                xue = xue+zhuangshi*200
+                junma = junma-zhuangshi
+                xiaxian += zhuangshi*20
+                qs('注意！')
+                print('你的', zhuangshi, '名壮士骑上了骏马，团队生命+', zhuangshi*200)
+                zhuangshi = 0
+            else:
+                xue = xue+junma*200
+                zhuangshi = zhuangshi-junma
+                xiaxian += junma*20
+                qs('注意！')
+                print('你的', junma, '名壮士骑上了骏马，团队生命+', junma*200)
+                junma = 0
+                print(L4)
+        if '骐骥' in L4 and zhuangshi>0:
+            qiji = L4.count('骐骥')
+            if qiji > zhuangshi:
+                xue = xue+zhuangshi*150
+                qiji = qiji-zhuangshi
+                xiaxian += zhuangshi*15
+                qs('注意！')
+                print('你的', zhuangshi, '名壮士骑上了骐骥，团队生命+',zhuangshi*150)
+                zhuangshi = 0
+            else:
+                xue = xue+qiji*150
+                zhuangshi = zhuangshi-qiji
+                xiaxian += qiji*15
+                qs('注意！')
+                print('你的', qiji, '名壮士骑上了骐骥，团队生命+',qiji*150)
+                qiji = 0
+        if '良马' in L4 and zhuangshi > 0:
+            liangma = L4.count('良马')
+            if liangma > zhuangshi:
+                xue = xue+zhuangshi*100
+                liangma = liangma-zhuangshi
+                xiaxian += zhuangshi*10
+                qs('注意！')
+                print('你的', zhuangshi, '名壮士骑上了良马，团队生命+',zhuangshi*100)
+                zhuangshi = 0
+            else:
+                xue = xue+liangma*100
+                zhuangshi = zhuangshi-liangma
+                xiaxian += liangma*10
+                qs('注意！')
+                print('你的', liangma, '名壮士骑上了良马，团队生命+',liangma*100)
+                liangma = 0
+        if '驽马' in L4 and zhuangshi > 0:
+            numa1 = L4.count('驽马')
+            if numa1 > zhuangshi:
+                xue = xue+zhuangshi*50
+                numa1 = numa1-zhuangshi
+                xiaxian += zhuangshi*5
+                qs('注意！')
+                print('你的', zhuangshi, '名壮士骑上了驽马，团队生命+',zhuangshi*50)
+                zhuangshi = 0
+            else:
+                xue = xue+numa1*50
+                zhuangshi = zhuangshi-numa1
+                xiaxian += numa*5
+                qs('注意！')
+                print('你的', zhuangshi, '名壮士骑上了驽马，团队生命+',zhuangshi*50)
+                numa1 = 0
+        if zhuangshi>0:
+            print('你还剩下',zhuangshi,'名壮士没有马，团队生命+',zhuangshi*25)
+            xue = xue+zhuangshi*25
+            xiaxian += zhuangshi*3
+    print('总攻击增加了','攻击+',xiaxian)
+    xue = xue+Lifevalue1
+    xueq=xue
+    print('共计血量：', xue)
+    return xue,xiaxian
 savelist = ['L1', 'L2','L3','L4','L5','rpc','saiwaijn','guanshan1','guanshan2','yanshan','shu','huanhundan','huanghe','Lifevalue2','tao1','tao2','tao3','tao4','taoyici','yujuqing','numa','jia','chenxiang','dongpo','wangyici','xunfu1','lianxu2','xishicishu','tianqi','percent','qlj','qingbao1','u1','u2','u3','u4','u5','u6','u7','u100','e1','wang','wen','wen2','qie','Lifevalue1','Lifevaluelimit','money','chengjiu','dogblood','n889','qinglongjishu']  #需要存读的变量
 def save_save():  #保存存档 
-	try:  #尝试执行代码
-		savefile = open(os.getcwd()+r'/save.txt', mode='w+')   #打开文件
-		#print(savefile)
-		globallist = globals()  #读取全局变量
-		#print(globallist)
-		savedict ={}  #预设需要保存的变量字典
-		#print(savedict)
-		for val in savelist:  #从需要要保存的变量的列表中读取出变量名到val变量直到读取完毕
-			#print(val)
-			savetempdict={val:globallist[val]} #设置缓存列表为(变量名:变量的内容)
-			#print(savetempdict)
-			savedict.update(savetempdict) #添加缓存列表数据到变量字典
-			#print(savedict)
-		savefile.write(json.dumps(savedict)) #将字典转换成json之后写入文件
-		#print(json.dumps(savedict))
-		savefile.close() #关闭文件
-		print('存档完毕')
-	except BaseException as error: #抓取try代码中所有错误的类型和原因给error并执行代码
-		print('发生错误QAQ:'+str(error))
+    try:  #尝试执行代码
+        with open(f'{os.getcwd()}/save.txt', mode='w+') as savefile:
+            #print(savefile)
+            globallist = globals()  #读取全局变量
+            #print(globallist)
+            savedict ={}  #预设需要保存的变量字典
+            		#print(savedict)
+            for val in savelist:  #从需要要保存的变量的列表中读取出变量名到val变量直到读取完毕
+                #print(val)
+                savetempdict={val:globallist[val]} #设置缓存列表为(变量名:变量的内容)
+                			#print(savetempdict)
+                savedict |= savetempdict
+            			#print(savedict)
+            savefile.write(json.dumps(savedict)) #将字典转换成json之后写入文件
+        print('存档完毕')
+    except BaseException as error: #抓取try代码中所有错误的类型和原因给error并执行代码
+        print(f'发生错误QAQ:{str(error)}')
 def save_read():  #读取存档
-	try:  #尝试执行代码
-		 savefile = open(os.getcwd()+r'/save.txt', mode='r+')  #读取文件
-		 savereaddata  =  json.loads(savefile.read()) #读取文件中的json并转换成字典
+    try:  #尝试执行代码
+        savefile = open(f'{os.getcwd()}/save.txt', mode='r+')
+        savereaddata  =  json.loads(savefile.read()) #读取文件中的json并转换成字典
 		#print(savereaddata)
-		 for val in savereaddata: #从字典中找出变量并赋值给val直至查找完毕
-		 	#print(val)
-		 	evalcommand = str('global '+val+';'+val+'='+str(savereaddata[val]))#设置给全局模式命令行需要调用的代码，代码的意思是设置变量为全局变量后给变量赋值存档的变量
-		 	#print(evalcommand)
-		 	exec(evalcommand) #以全局模式调用代码(而不是在函数里调用代码)
-		 	#print(savereaddata)
-		 	savefile.close()   #关闭文件
-		 #print( locals())
-		 print('读档完毕')
-	except IOError: #捕获输入/出错误和原因给error并执行代码
-		print('没有存档文件QWQ')
-	except BaseException as error: #捕获所有错误和原因给error并执行代码
-		print('发生错误QAQ:'+str(error))
+        for val in savereaddata: #从字典中找出变量并赋值给val直至查找完毕
+            		 	#print(val)
+            evalcommand = str(f'global {val};{val}={str(savereaddata[val])}')
+            #print(evalcommand)
+            exec(evalcommand) #以全局模式调用代码(而不是在函数里调用代码)
+            #print(savereaddata)
+            savefile.close()   #关闭文件
+        #print( locals())
+        print('读档完毕')
+    except IOError: #捕获输入/出错误和原因给error并执行代码
+    	print('没有存档文件QWQ')
+    except BaseException as error: #捕获所有错误和原因给error并执行代码
+        print(f'发生错误QAQ:{str(error)}')
 	
 
 print('今年轮到了你负责做春节的准备，现在离除夕晚宴还剩下36个小时，你接下来要做什么呢')
